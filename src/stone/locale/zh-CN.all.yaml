@@ -1,0 +1,8 @@
+- id: errcode_1001
+  translation: 调用参数异常
+  
+- id: errcode_9000
+  translation: 请求鉴权超时
+
+- id: errcode_9001
+  translation: 请求鉴权非法

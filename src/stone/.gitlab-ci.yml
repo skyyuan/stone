@@ -1,0 +1,19 @@
+stages:
+  - build
+  - deploy
+
+build production img:
+  tags:
+    - ansible
+  stage: build
+  only:
+    - tags
+  script: "make TAG=$CI_COMMIT_TAG"
+
+deploy to production:
+  tags:
+    - ansible
+  stage: deploy
+  only:
+    - tags
+  script: ./bin/deploy.sh $SEMAPHORE_TOKEN $CI_COMMIT_TAG

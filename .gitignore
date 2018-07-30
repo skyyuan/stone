@@ -1,0 +1,8 @@
+.gvm_local/*
+.idea/*
+pkg/*
+bin/*
+lastupdate.tmp
+src/stone/conf/*
+.vscode/*
+src/github.com/*
