@@ -15,7 +15,7 @@ func Heartbeat(endpoint string) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) (err error) {
 			if r := c.Request(); r.Method == "GET" && strings.EqualFold(r.URL.Path, endpoint) {
-				return c.String(http.StatusOK, ".")
+				return c.String(http.StatusOK, "pong")
 			}
 			return next(c)
 		}

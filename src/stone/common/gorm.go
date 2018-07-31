@@ -5,6 +5,7 @@ import (
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql" // mysql driver
+	"fmt"
 )
 
 // DB gorm数据库实例
@@ -19,9 +20,17 @@ type GormDB struct {
 // InitDB 初始化数据库
 func InitDB(config Config) {
 	// config := getDatabaseConfig()
-
+	//host :=  "127.0.0.1:3306"
+	//user := "root"
+	//pass := ""
 	// var connstring string
 	idb, err := gorm.Open("mysql", config.MysqlURL())
+	//idb, err := gorm.Open("mysql", user+":"+pass+"@tcp("+host+")/DBSCHEMA?charset=utf8mb4&parseTime=True&loc=Local")
+	fmt.Println(11111)
+	fmt.Println(config.MysqlURL())
+	fmt.Println(idb)
+	fmt.Println(err)
+	fmt.Println(2222)
 	if err != nil {
 		panic(err)
 	}

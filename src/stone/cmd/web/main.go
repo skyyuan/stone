@@ -1,12 +1,12 @@
 package main
 
 import (
-	//"context"
+	"context"
 	"fmt"
 	"os"
-	//"os/signal"
-	//"syscall"
-	//"time"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"stone/common"
 	"stone/common/auth"
@@ -21,6 +21,7 @@ import (
 	"github.com/alecthomas/kingpin"
 	"github.com/labstack/echo"
 	emw "github.com/labstack/echo/middleware"
+
 )
 
 var (
@@ -28,6 +29,7 @@ var (
 	Version = "0.0.1"
 	app     = kingpin.New("app", "Web application server.").DefaultEnvars()
 	port    = app.Flag("port", "Server port for listening.").Short('p').Default("8080").String()
+	//port    = app.Flag("port", "Server port for listening.").Short('p').Default("8080").String()
 	authoff = app.Flag("authoff", "Turnoff application authrization").Default("false").Bool()
 
 	cmdRun = app.Command("run", "Run application").Default()
@@ -93,22 +95,22 @@ func main() {
 
 	// Wait for interrupt signal to gracefully shutdown the server with
 	// a timeout of 10 seconds.
-	//quit := make(chan os.Signal)
-	//signal.Notify(quit, syscall.SIGUSR1, syscall.SIGINT, syscall.SIGTERM)
-	//<-quit
-	//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	//defer cancel()
-	//if err := e.Shutdown(ctx); err != nil {
-	//	e.Logger.Fatal(err)
-	//}
+	quit := make(chan os.Signal)
+	signal.Notify(quit, syscall.SIGUSR1, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	if err := e.Shutdown(ctx); err != nil {
+		e.Logger.Fatal(err)
+	}
 	e.Logger.Info("Server exist")
 }
 
 func configure() *webcomm.Config {
 	conf := &webcomm.Config{}
 	app.Flag("db", "Database connection URL, only support mysql.").
-		PlaceHolder("USER:PWD@tcp(127.0.0.1:3306)/ ?charset=utf8&parseTime=True&loc=Local").
-		Required().
+		//PlaceHolder("USER:PWD@tcp(DBURL:DBPORT)/DBSCHEMA?charset=utf8&parseTime=True&loc=Local").
+		PlaceHolder("user:"+""+"@tcp(127.0.0.1:3306)/DBSCHEMA?charset=utf8mb4&parseTime=True&loc=Local").
 		StringVar(&conf.CmMysqlURL)
 	app.Flag("dbidle", "Database idel connection numbers.").
 		Default("10").
