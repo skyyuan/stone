@@ -34,7 +34,8 @@ func EchoHTTPErrorHandler(e *echo.Echo) echo.HTTPErrorHandler {
 		} else {
 			rmsg = fmt.Sprintf("%s", msg)
 		}
-
+		fmt.Println("处理错误信息")
+		fmt.Println(errcode)
 		if !c.Response().Committed {
 			if c.Request().Method == echo.HEAD { // Issue #608
 				if err := c.NoContent(code); err != nil {

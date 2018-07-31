@@ -64,8 +64,6 @@
 
 ### 消息队列
 
+### 启动项目
+go run ./cmd/{N}/main.go
 
-#### Docker
-docker build .
-
-docker run -t -i  buildpack-deps
