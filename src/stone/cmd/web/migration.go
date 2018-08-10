@@ -6,7 +6,7 @@ import (
 	"stone/service/web"
 )
 
-func dDbMigrate2() {
+func dDbMigrate() {
 	db := common.DBBegin()
 
 	db.AutoMigrate(&web.Erc20CoinType{}, &web.EthereumEstimateGas{}, &auth.AppAuth{}, &web.UserAddress{}, &web.UserErc20Coin{}, &web.Device{})

@@ -13,7 +13,6 @@ import (
 	"stone/common/webcomm"
 	"stone/locale"
 	"stone/nsqs"
-	"stone/service/web"
 
 	"stone/cmd/web/api/v1"
 	"stone/middleware"
@@ -44,7 +43,6 @@ func main() {
 	kingpin.Version(Version)
 
 	parsedCmd := kingpin.MustParse(app.Parse(os.Args[1:]))
-
 	// common init
 	common.InitDB(conf)
 	defer common.DBClose()
@@ -75,9 +73,9 @@ func main() {
 	reqlogger := common.RequestLog(conf.Reqlog())
 	e.Use(middleware.Logger(reqlogger), middleware.Recover())
 	// 鉴权
-	if !*authoff {
-		e.Use(middleware.AppAuth())
-	}
+	//if !*authoff {
+	//	e.Use(middleware.AppAuth())
+	//}
 
 	// actions
 	v1.RegisterAPI(e)
@@ -131,14 +129,4 @@ func configure() *webcomm.Config {
 	app.Flag("nsqlookups", "Nsq lookups address").Default("127.0.0.1:4161").
 		StringsVar(&conf.Nsqconfig.Lookups)
 	return conf
-}
-
-
-
-func dDbMigrate() {
-	db := common.DBBegin()
-
-	db.AutoMigrate(&web.Erc20CoinType{}, &web.EthereumEstimateGas{}, &auth.AppAuth{}, &web.UserAddress{}, &web.UserErc20Coin{}, &web.Device{})
-
-	db.Commit()
 }

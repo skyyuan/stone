@@ -6,3 +6,4 @@ lastupdate.tmp
 src/stone/conf/*
 .vscode/*
 src/github.com/*
+src/stone/.idea/*
